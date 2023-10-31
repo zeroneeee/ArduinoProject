@@ -1,11 +1,7 @@
 
 # Project Title
 
-<<<<<<< HEAD
 Arduino Code for IDE.
-=======
-A brief description of what this project does and who it's for
->>>>>>> 6676c1743e26c0b4fb6ce2668557042215b2de9e
 
 
 ## Demo
