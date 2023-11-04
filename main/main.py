@@ -1,6 +1,7 @@
 import tkinter as tk
 
 class TrafficLightGUI:
+    
     def __init__(self, master):
         self.master = master
 
@@ -8,9 +9,9 @@ class TrafficLightGUI:
         self.traffic_light_frame = tk.Frame(self.master)
 
         # Create the red, yellow, and green light labels
-        self.red_light_label = tk.Label(self.traffic_light_frame, text="Red", bg="red")
-        self.yellow_light_label = tk.Label(self.traffic_light_frame, text="Yellow", bg="yellow")
-        self.green_light_label = tk.Label(self.traffic_light_frame, text="Green", bg="green")
+        self.red_light_label = tk.Label(self.traffic_light_frame, text="Red", bg="black")
+        self.yellow_light_label = tk.Label(self.traffic_light_frame, text="Yellow", bg="black")
+        self.green_light_label = tk.Label(self.traffic_light_frame, text="Green", bg="black")
 
         # Place the light labels in the frame
         self.red_light_label.grid(row=0, column=0)
@@ -19,32 +20,49 @@ class TrafficLightGUI:
 
         # Pack the frame into the master window
         self.traffic_light_frame.pack()
+        
+        # Initialize the current light index and light colors
+        self.light_colors = ["red", "yellow", "green"]
+        self.current_light_index = 0
 
-    def update_traffic_light(self, color):
-        # Turn on the specified light and turn off the other lights
-        if color == "red":
+        # Schedule the update_traffic_light method to run every 5 seconds
+        self.master.after(5000, self.update_traffic_light)
+        
+
+    def turn_off_lights(self):
+        # Turn off all lights
+        self.red_light_label.config(bg="black")
+        self.yellow_light_label.config(bg="black")
+        self.green_light_label.config(bg="black")
+
+    def update_traffic_light(self):
+        # Turn off all lights
+        self.turn_off_lights()
+
+        # Set the color of the current light
+        current_color = self.light_colors[self.current_light_index]
+        if current_color == "red":
             self.red_light_label.config(bg="red")
-            self.yellow_light_label.config(bg="black")
-            self.green_light_label.config(bg="black")
-        elif color == "yellow":
-            self.red_light_label.config(bg="black")
+            print("red")
+        elif current_color == "yellow":
             self.yellow_light_label.config(bg="yellow")
-            self.green_light_label.config(bg="black")
-        elif color == "green":
-            self.red_light_label.config(bg="black")
-            self.yellow_light_label.config(bg="black")
+            print("yellow")
+        elif current_color == "green":
             self.green_light_label.config(bg="green")
-        else:
-            raise ValueError("Invalid traffic light color")
+            print("green")
+        
 
+        # Increment the current light index, cycling through the colors
+        self.current_light_index = (self.current_light_index + 1) % len(self.light_colors)
+
+        # Schedule the next update in 5 seconds
+        self.master.after(5000, self.update_traffic_light)
+    
 # Create the main window
 root = tk.Tk()
 
 # Create a TrafficLightGUI object
 traffic_light_gui = TrafficLightGUI(root)
-
-# Update the GUI to display the red light
-traffic_light_gui.update_traffic_light("yellow")
 
 # Start the mainloop
 root.mainloop()
